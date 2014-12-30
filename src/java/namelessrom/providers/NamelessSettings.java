@@ -763,6 +763,17 @@ public final class NamelessSettings {
 
         // region System Settings
 
+         /**
+          * The delay when killing the app on long press takes place
+          *
+          * @hide
+          **/
+        public static final String LONG_PRESS_KILL_DELAY = "long_press_kill_delay";
+
+        /** @hide */
+        public static final Validator LONG_PRESS_KILL_DELAY_VALIDATOR =
+                sNonNegativeIntegerValidator;
+
         // endregion
 
         /**
@@ -791,7 +802,7 @@ public final class NamelessSettings {
         public static final Map<String, Validator> VALIDATORS =
                 new ArrayMap<String, Validator>();
         static {
-            // empty
+            VALIDATORS.put(LONG_PRESS_KILL_DELAY, LONG_PRESS_KILL_DELAY_VALIDATOR);
         };
     }
 
