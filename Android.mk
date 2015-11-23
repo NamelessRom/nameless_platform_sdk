@@ -42,3 +42,20 @@ LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/permissions
 LOCAL_SRC_FILES := $(LOCAL_MODULE)
 
 include $(BUILD_PREBUILT)
+
+# The SDK
+# ============================================================
+include $(CLEAR_VARS)
+
+nameless_src := src/java/namelessrom
+
+LOCAL_MODULE := org.namelessrom.platform.sdk
+LOCAL_MODULE_TAGS := optional
+
+LOCAL_SRC_FILES := \
+    $(call all-java-files-under, $(nameless_src)) \
+
+include $(BUILD_STATIC_JAVA_LIBRARY)
+
+# build other packages
+include $(call first-makefiles-under,$(LOCAL_PATH))
