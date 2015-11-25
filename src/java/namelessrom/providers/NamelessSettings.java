@@ -1171,6 +1171,12 @@ public final class NamelessSettings {
 
         // region Secure Settings
 
+        /**
+         * Global stats collection
+         * @hide
+         */
+        public static final String STATS_COLLECTION = "stats_collection";
+
         // endregion
 
         /**
