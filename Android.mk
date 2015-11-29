@@ -18,7 +18,7 @@ LOCAL_PATH := $(call my-dir)
 # ============================================================
 include $(CLEAR_VARS)
 
-nameless_src := src/java/namelessrom
+nameless_src := library/src/main/java/
 
 LOCAL_MODULE := org.namelessrom.platform
 LOCAL_MODULE_TAGS := optional
@@ -27,6 +27,8 @@ LOCAL_SRC_FILES := \
     $(call all-java-files-under, $(nameless_src)) \
 
 include $(BUILD_JAVA_LIBRARY)
+
+nameless_framework_built := $(call java-lib-deps, org.namelessrom.platform)
 
 # ====  org.namelessrom.platform.xml lib def  ========================
 include $(CLEAR_VARS)
@@ -47,14 +49,13 @@ include $(BUILD_PREBUILT)
 # ============================================================
 include $(CLEAR_VARS)
 
-nameless_src := src/java/namelessrom
-
 LOCAL_MODULE := org.namelessrom.platform.sdk
 LOCAL_MODULE_TAGS := optional
 
 LOCAL_SRC_FILES := \
     $(call all-java-files-under, $(nameless_src)) \
 
+$(full_target): $(nameless_framework_built) $(gen)
 include $(BUILD_STATIC_JAVA_LIBRARY)
 
 # build other packages
