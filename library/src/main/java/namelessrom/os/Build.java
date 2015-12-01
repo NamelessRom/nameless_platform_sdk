@@ -32,7 +32,7 @@ public class Build {
     public static final String DEVICE = SystemProperties.get("ro.nameless.device", UNKNOWN);
 
     /** @hide */
-    public static final boolean DEBUG = SystemProperties.getBoolean("ro.nameless.debug", false);
+    public static final boolean DEBUG = SystemProperties.getBoolean("persist.nameless.debug", false);
 
     /** @hide */
     public static final String OTA_URL = SystemProperties.get("ro.nameless.ota.download",
