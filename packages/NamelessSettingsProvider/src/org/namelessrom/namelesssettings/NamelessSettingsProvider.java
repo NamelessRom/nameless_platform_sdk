@@ -46,19 +46,16 @@ import android.util.SparseArray;
 
 import namelessrom.providers.NamelessSettings;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 /**
  * The NamelessSettingsProvider serves as a {@link ContentProvider} for Nameless specific settings
  */
 public class NamelessSettingsProvider extends ContentProvider {
-    private static final String TAG = "NamelessSettingsProvider";
+    private static final String TAG = "NSettingsProvider";
     private static final boolean LOCAL_LOGV = false;
 
     private static final boolean USER_CHECK_THROWS = true;
 
+    private static final String PREF_FILE_NAME = "NamelessSettingsProvider";
     private static final String PREF_HAS_MIGRATED_NAMELESS_SETTINGS = "has_migrated_nameless_settings";
 
     private static final Bundle NULL_SETTING = Bundle.forPair("value", null);
@@ -110,7 +107,7 @@ public class NamelessSettingsProvider extends ContentProvider {
         mUriBuilder.scheme(ContentResolver.SCHEME_CONTENT);
         mUriBuilder.authority(NamelessSettings.AUTHORITY);
 
-        mSharedPrefs = getContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        mSharedPrefs = getContext().getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
 
         IntentFilter userFilter = new IntentFilter();
         userFilter.addAction(Intent.ACTION_USER_REMOVED);
@@ -290,13 +287,13 @@ public class NamelessSettingsProvider extends ContentProvider {
 
         // Framework can't do automatic permission checking for calls, so we need
         // to do it here.
-        /*if (getContext().checkCallingOrSelfPermission(
+        if (getContext().checkCallingOrSelfPermission(
                 namelessrom.platform.Manifest.permission.WRITE_SETTINGS) !=
-                PackageManager.PERMISSION_GRANTED) {
+            PackageManager.PERMISSION_GRANTED) {
             throw new SecurityException(
                     String.format("Permission denial: writing to settings requires %1$s",
                             namelessrom.platform.Manifest.permission.WRITE_SETTINGS));
-        }*/
+        }
 
         // Put methods
         final ContentValues values = new ContentValues();
@@ -662,8 +659,7 @@ public class NamelessSettingsProvider extends ContentProvider {
      * @throws SecurityException if the caller is forbidden to write.
      */
     private void checkWritePermissions(String tableName) {
-        // TODO: add protection
-        /*if ((NamelessDatabaseHelper.NamelessTableNames.TABLE_SECURE.equals(tableName) ||
+        if ((NamelessDatabaseHelper.NamelessTableNames.TABLE_SECURE.equals(tableName) ||
                 NamelessDatabaseHelper.NamelessTableNames.TABLE_GLOBAL.equals(tableName)) &&
                 getContext().checkCallingOrSelfPermission(
                         namelessrom.platform.Manifest.permission.WRITE_SECURE_SETTINGS) !=
@@ -671,7 +667,7 @@ public class NamelessSettingsProvider extends ContentProvider {
             throw new SecurityException(
                     String.format("Permission denial: writing to Nameless secure settings requires %1$s",
                             namelessrom.platform.Manifest.permission.WRITE_SECURE_SETTINGS));
-        }*/
+        }
     }
 
     /**

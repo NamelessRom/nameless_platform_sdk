@@ -24,8 +24,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
-import android.os.Build;
 import android.os.Environment;
 import android.os.SystemProperties;
 import android.os.UserHandle;
@@ -33,7 +31,6 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import namelessrom.providers.NamelessSettings;
 
 import java.io.File;
 
