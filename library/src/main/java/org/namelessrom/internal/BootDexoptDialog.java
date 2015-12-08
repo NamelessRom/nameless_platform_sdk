@@ -43,15 +43,16 @@ public class BootDexoptDialog extends Dialog {
     /** For low ram devices */
     private static final String PROP_DEXOPT_NO_ICON = "persist.sys.dexopt.no_icon";
 
-    final Context mContext;
-    final PackageManager mPackageManager;
+    private final Context mContext;
+    private final PackageManager mPackageManager;
 
-    ImageView mBootDexoptIcon;
-    TextView mBootDexoptMsg;
-    TextView mBootDexoptMsgDetail;
-    ProgressBar mBootDexoptProgress;
+    private ImageView mBootDexoptIcon;
+    private TextView mBootDexoptMsg;
+    private TextView mBootDexoptMsgDetail;
+    private ProgressBar mBootDexoptProgress;
 
-    boolean mShouldShowIcon;
+    private boolean mShouldShowIcon;
+    private boolean mWasApk;
 
     public static BootDexoptDialog create(Context context, final int total) {
         return create(context, total, WindowManager.LayoutParams.TYPE_BOOT_PROGRESS);
@@ -77,10 +78,10 @@ public class BootDexoptDialog extends Dialog {
         mContext = context;
         mPackageManager = mContext.getPackageManager();
 
-        final boolean useFanceEffects = (!ActivityManager.isLowRamDeviceStatic() || ActivityManager.isForcedHighEndGfx());
-        mShouldShowIcon = !SystemProperties.getBoolean(PROP_DEXOPT_NO_ICON, !useFanceEffects);
+        final boolean useFancyEffects = (!ActivityManager.isLowRamDeviceStatic() || ActivityManager.isForcedHighEndGfx());
+        mShouldShowIcon = !SystemProperties.getBoolean(PROP_DEXOPT_NO_ICON, !useFancyEffects);
 
-        final LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final LayoutInflater inflater = LayoutInflater.from(mContext);
         final View bootMsgLayout = inflater.inflate(R.layout.boot_dexopt_layout, null, false);
         mBootDexoptMsg = (TextView) bootMsgLayout.findViewById(R.id.dexopt_message);
         mBootDexoptMsgDetail = (TextView) bootMsgLayout.findViewById(R.id.dexopt_message_detail);
@@ -143,18 +144,26 @@ public class BootDexoptDialog extends Dialog {
             }
         }
 
+        // check if the state has changed
+        if (mWasApk != isApk) {
+            mWasApk = isApk;
+            if (isApk) {
+                mBootDexoptMsgDetail.setVisibility(View.VISIBLE);
+                mBootDexoptProgress.setVisibility(View.VISIBLE);
+            } else {
+                mBootDexoptMsgDetail.setVisibility(View.GONE);
+                mBootDexoptProgress.setVisibility(View.INVISIBLE);
+            }
+        }
+
         // if we are processing an apk, load its icon and set the message details
         if (isApk) {
             if (mShouldShowIcon) {
                 mBootDexoptIcon.setImageDrawable(info.loadIcon(mPackageManager));
             }
-            mBootDexoptMsgDetail.setVisibility(View.VISIBLE);
             mBootDexoptMsgDetail.setText(String.format("(%s)", info.packageName));
-            mBootDexoptProgress.setVisibility(View.VISIBLE);
         } else {
             mBootDexoptIcon.setImageDrawable(null);
-            mBootDexoptMsgDetail.setVisibility(View.GONE);
-            mBootDexoptProgress.setVisibility(View.INVISIBLE);
         }
 
         mBootDexoptMsg.setText(msg);

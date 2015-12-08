@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
         }
 
         mBootDexoptDialog = BootDexoptDialog.create(this, applicationInfos.size(), 0);
-        mHandler.postDelayed(mUpdateDexoptDialogRunnable, 0);
+        mHandler.post(mUpdateDexoptDialogRunnable);
     }
 
     final Runnable mUpdateDexoptDialogRunnable = new Runnable() {
