@@ -16,7 +16,7 @@
 -->
 <resources>
     <!-- Boot dexopt layout -->
-    <dimen name="dexopt_icon_margin">6dp</dimen>
+    <dimen name="dexopt_icon_margin">5dp</dimen>
     <dimen name="dexopt_icon_size">40dp</dimen>
     <dimen name="dexopt_logo_size">200dp</dimen>
     <dimen name="dexopt_message">10dp</dimen>

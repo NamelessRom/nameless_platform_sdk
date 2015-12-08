@@ -54,6 +54,10 @@ public class BootDexoptDialog extends Dialog {
     boolean mShouldShowIcon;
 
     public BootDexoptDialog(Context context, int themeResId, final int total) {
+        this(context, themeResId, total, WindowManager.LayoutParams.TYPE_BOOT_PROGRESS);
+    }
+
+    public BootDexoptDialog(Context context, int themeResId, final int total, int windowType) {
         super(context, themeResId);
         mContext = context;
         mPackageManager = mContext.getPackageManager();
@@ -77,12 +81,16 @@ public class BootDexoptDialog extends Dialog {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(bootMsgLayout);
-        getWindow().setType(WindowManager.LayoutParams.TYPE_BOOT_PROGRESS);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+
+        if (windowType != 0) {
+            getWindow().setType(windowType);
+        }
+        getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
+                             | WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         final WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         // turn off button lights when dexopting
         lp.buttonBrightness = 0;
         lp.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_NOSENSOR;
