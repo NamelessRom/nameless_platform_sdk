@@ -53,8 +53,23 @@ public class BootDexoptDialog extends Dialog {
 
     boolean mShouldShowIcon;
 
-    public BootDexoptDialog(Context context, int themeResId, final int total) {
-        this(context, themeResId, total, WindowManager.LayoutParams.TYPE_BOOT_PROGRESS);
+    public static BootDexoptDialog create(Context context, final int total) {
+        return create(context, total, WindowManager.LayoutParams.TYPE_BOOT_PROGRESS);
+    }
+
+    public static BootDexoptDialog create(Context context, final int total, int windowType) {
+        final PackageManager pm = context.getPackageManager();
+        final int theme;
+        if (pm.hasSystemFeature(PackageManager.FEATURE_TELEVISION) || pm.hasSystemFeature(PackageManager.FEATURE_LEANBACK)) {
+            theme = com.android.internal.R.style.Theme_Micro_Dialog_Alert;
+        } else if (pm.hasSystemFeature(PackageManager.FEATURE_WATCH)) {
+            theme = com.android.internal.R.style.Theme_Leanback_Dialog_Alert;
+        } else {
+            // set theme to material light to show a full screen dialog
+            theme = com.android.internal.R.style.Theme_Material_Light;
+        }
+
+        return new BootDexoptDialog(context, theme, total, windowType);
     }
 
     public BootDexoptDialog(Context context, int themeResId, final int total, int windowType) {
@@ -62,22 +77,15 @@ public class BootDexoptDialog extends Dialog {
         mContext = context;
         mPackageManager = mContext.getPackageManager();
 
-        final boolean useFanceEffects = (!ActivityManager.isLowRamDeviceStatic()
-                                         || ActivityManager.isForcedHighEndGfx());
+        final boolean useFanceEffects = (!ActivityManager.isLowRamDeviceStatic() || ActivityManager.isForcedHighEndGfx());
         mShouldShowIcon = !SystemProperties.getBoolean(PROP_DEXOPT_NO_ICON, !useFanceEffects);
 
-        final LayoutInflater inflater =
-                (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View bootMsgLayout = inflater.inflate(
-                R.layout.boot_dexopt_layout, null, false);
-        mBootDexoptMsg = (TextView) bootMsgLayout.findViewById(
-                R.id.dexopt_message);
-        mBootDexoptMsgDetail = (TextView) bootMsgLayout.findViewById(
-                R.id.dexopt_message_detail);
-        mBootDexoptIcon = (ImageView) bootMsgLayout.findViewById(
-                R.id.dexopt_icon);
-        mBootDexoptProgress = (ProgressBar) bootMsgLayout.findViewById(
-                R.id.dexopt_progress);
+        final LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View bootMsgLayout = inflater.inflate(R.layout.boot_dexopt_layout, null, false);
+        mBootDexoptMsg = (TextView) bootMsgLayout.findViewById(R.id.dexopt_message);
+        mBootDexoptMsgDetail = (TextView) bootMsgLayout.findViewById(R.id.dexopt_message_detail);
+        mBootDexoptIcon = (ImageView) bootMsgLayout.findViewById(R.id.dexopt_icon);
+        mBootDexoptProgress = (ProgressBar) bootMsgLayout.findViewById(R.id.dexopt_progress);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(bootMsgLayout);
@@ -85,10 +93,8 @@ public class BootDexoptDialog extends Dialog {
         if (windowType != 0) {
             getWindow().setType(windowType);
         }
-        getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
-                             | WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         final WindowManager.LayoutParams lp = getWindow().getAttributes();
         // turn off button lights when dexopting
@@ -118,23 +124,18 @@ public class BootDexoptDialog extends Dialog {
 
         if (info == null) {
             if (current == Integer.MIN_VALUE) {
-                msg = mContext.getResources().getString(
-                        com.android.internal.R.string.android_upgrading_starting_apps);
+                msg = mContext.getResources().getString(com.android.internal.R.string.android_upgrading_starting_apps);
             } else if (current == (Integer.MIN_VALUE + 1)) {
-                msg = mContext.getResources().getString(
-                        com.android.internal.R.string.android_upgrading_fstrim);
+                msg = mContext.getResources().getString(com.android.internal.R.string.android_upgrading_fstrim);
             } else if (current == (Integer.MIN_VALUE + 3)) {
-                msg = mContext.getResources().getString(
-                        com.android.internal.R.string.android_upgrading_complete);
+                msg = mContext.getResources().getString(com.android.internal.R.string.android_upgrading_complete);
             }
         } else if (current == (Integer.MIN_VALUE + 2)) {
             final CharSequence label = info.loadLabel(mContext.getPackageManager());
-            msg = mContext.getResources().getString(
-                    com.android.internal.R.string.android_preparing_apk, label);
+            msg = mContext.getResources().getString(com.android.internal.R.string.android_preparing_apk, label);
         } else {
             isApk = true;
-            msg = mContext.getResources().getString(
-                    com.android.internal.R.string.android_upgrading_apk, current, total);
+            msg = mContext.getResources().getString(com.android.internal.R.string.android_upgrading_apk, current, total);
             mBootDexoptProgress.setProgress(current);
             // just make it look pretty :P
             if ((current + 1) <= total) {

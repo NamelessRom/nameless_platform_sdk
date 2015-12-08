@@ -35,7 +35,7 @@ public class MainActivity extends Activity {
             applicationInfos.add(packageInfo.applicationInfo);
         }
 
-        mBootDexoptDialog = new BootDexoptDialog(this, 0, applicationInfos.size(), 0);
+        mBootDexoptDialog = BootDexoptDialog.create(this, applicationInfos.size(), 0);
         mHandler.postDelayed(mUpdateDexoptDialogRunnable, 0);
     }
 
@@ -87,7 +87,6 @@ public class MainActivity extends Activity {
             }
 
             mBootDexoptDialog.setProgress(applicationInfo, mCurrentType, applicationInfos.size());
-
             if (delay != 0) {
                 mHandler.postDelayed(mUpdateDexoptDialogRunnable, delay);
             }
