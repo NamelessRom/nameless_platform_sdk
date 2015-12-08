@@ -15,7 +15,8 @@
 LOCAL_PATH := $(call my-dir)
 
 nameless_platform_res := APPS/org.namelessrom.platform-res_intermediates/src
-nameless_src := library/src/main/java/
+nameless_src := library/src/main/java/namelessrom
+nameless_internal_src := library/src/main/java/org/namelessrom/internal
 
 # The Nameless Platform Framework Library
 # ============================================================
@@ -26,6 +27,7 @@ LOCAL_MODULE_TAGS := optional
 
 LOCAL_SRC_FILES := \
     $(call all-java-files-under, $(nameless_src)) \
+    $(call all-java-files-under, $(nameless_internal_src)) \
 
 namelessplat_LOCAL_INTERMEDIATE_SOURCES := \
     $(nameless_platform_res)/namelessrom/platform/R.java \
@@ -93,6 +95,7 @@ LOCAL_MODULE_TAGS := optional
 
 LOCAL_SRC_FILES := \
     $(call all-java-files-under, $(nameless_src)) \
+    $(call all-java-files-under, $(nameless_internal_src)) \
 
 namelesssdk_LOCAL_INTERMEDIATE_SOURCES := \
     $(nameless_platform_res)/namelessrom/platform/R.java \
