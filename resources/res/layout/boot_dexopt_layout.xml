@@ -87,7 +87,9 @@
                     android:scrollHorizontally="true"
                     android:singleLine="true"
                     android:textColor="@color/dexopt_text"
-                    tools:text="(org.namelessrom.platform.internal)" />
+                    android:visibility="gone"
+                    tools:text="(org.namelessrom.platform.internal)"
+                    tools:visibility="visible" />
             </LinearLayout>
             <Space
                 android:layout_width="@dimen/dexopt_icon_size"
@@ -99,6 +101,7 @@
             android:id="@+id/dexopt_progress"
             style="@android:style/Widget.Material.ProgressBar.Horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:progress="10" />
     </LinearLayout>
 </LinearLayout>

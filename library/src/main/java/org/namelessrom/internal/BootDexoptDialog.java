@@ -103,6 +103,7 @@ public class BootDexoptDialog extends Dialog {
                 mBootDexoptIcon.setImageDrawable(null);
                 mBootDexoptProgress.setMax(total);
                 mBootDexoptProgress.setProgress(0);
+                mBootDexoptProgress.setSecondaryProgress(0);
 
                 // start the marquee
                 mBootDexoptMsg.setSelected(true);
@@ -148,9 +149,11 @@ public class BootDexoptDialog extends Dialog {
             }
             mBootDexoptMsgDetail.setVisibility(View.VISIBLE);
             mBootDexoptMsgDetail.setText(String.format("(%s)", info.packageName));
+            mBootDexoptProgress.setVisibility(View.VISIBLE);
         } else {
             mBootDexoptIcon.setImageDrawable(null);
             mBootDexoptMsgDetail.setVisibility(View.GONE);
+            mBootDexoptProgress.setVisibility(View.INVISIBLE);
         }
 
         mBootDexoptMsg.setText(msg);
