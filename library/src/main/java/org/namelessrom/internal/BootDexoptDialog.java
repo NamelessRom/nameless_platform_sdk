@@ -40,6 +40,8 @@ import org.namelessrom.platform.internal.R;
  * @hide
  */
 public class BootDexoptDialog extends Dialog {
+    private static final boolean DEBUG = false;
+
     /** For low ram devices */
     private static final String PROP_DEXOPT_NO_ICON = "persist.sys.dexopt.no_icon";
 
@@ -173,6 +175,9 @@ public class BootDexoptDialog extends Dialog {
     // it, to avoid it trying to do things too early in boot.
 
     @Override public boolean dispatchKeyEvent(KeyEvent event) {
+        if (DEBUG) {
+            return super.dispatchKeyEvent(event);
+        }
         return true;
     }
 

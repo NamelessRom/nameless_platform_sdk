@@ -6,6 +6,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
 
 import org.namelessrom.internal.BootDexoptDialog;
 
@@ -13,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements View.OnClickListener {
     private static final int MAX_DELAY_HANDLER = 5000;
     private static final int MIN_DELAY_HANDLER = 2000;
 
@@ -29,6 +31,21 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final Button launchDexoptDialog = (Button) findViewById(R.id.launch_dexopt_dialog);
+        launchDexoptDialog.setOnClickListener(this);
+    }
+
+    @Override public void onClick(View view) {
+        final int id = view.getId();
+        switch (id) {
+            case R.id.launch_dexopt_dialog: {
+                launchDexOptDialog();
+                break;
+            }
+        }
+    }
+
+    private void launchDexOptDialog() {
         final PackageManager packageManager = getPackageManager();
         final List<PackageInfo> packageInfoList = packageManager.getInstalledPackages(0);
         for (final PackageInfo packageInfo : packageInfoList) {
@@ -36,6 +53,7 @@ public class MainActivity extends Activity {
         }
 
         mBootDexoptDialog = BootDexoptDialog.create(this, applicationInfos.size(), 0);
+        mBootDexoptDialog.setCancelable(true);
         mHandler.post(mUpdateDexoptDialogRunnable);
     }
 

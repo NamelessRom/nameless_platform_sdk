@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">NamelessPlatformTest</string>
+
+    <string name="launch_dexopt_dialog">Launch dexopt dialog</string>
 </resources>

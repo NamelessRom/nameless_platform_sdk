@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 123
+    compileSdkVersion 23
     buildToolsVersion "23.0.2"
 
     signingConfigs {
@@ -24,9 +24,10 @@ android {
 
     defaultConfig {
         applicationId "org.namelessrom.tests.platform"
-        targetSdkVersion 123
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 23
+        // higher than manifest to allow debugging via android studio while gaining all permissions
+        versionCode 101
+        versionName "1.0.1"
 
         def String localProps = System.getenv('SIGNING_PROP_FILE')
         if (localProps == null) {
