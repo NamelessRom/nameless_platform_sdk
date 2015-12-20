@@ -775,7 +775,7 @@ public final class NamelessSettings {
                 sNonNegativeIntegerValidator;
 
         /**
-         * Allows to show the background activity back the lockscreen
+         * Allows to show the background activity back the lock screen
          * 0 = off
          * 1 = on
          * @hide
@@ -784,6 +784,16 @@ public final class NamelessSettings {
 
         /** @hide */
         public static final Validator LOCKSCREEN_SEE_THROUGH_VALIDATOR = sBooleanValidator;
+
+        /**
+         * Allows setting the radius for lock screen blur
+         * @hide
+         */
+        public static final String LOCKSCREEN_BLUR_RADIUS = "lockscreen_blur_radius";
+
+        /** @hide */
+        public static final Validator LOCKSCREEN_BLUR_RADIUS_VALIDATOR =
+                new InclusiveIntegerRangeValidator(0, 25);
 
         // endregion
 
@@ -814,6 +824,7 @@ public final class NamelessSettings {
         static {
             VALIDATORS.put(LONG_PRESS_KILL_DELAY, LONG_PRESS_KILL_DELAY_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_SEE_THROUGH, LOCKSCREEN_SEE_THROUGH_VALIDATOR);
+            VALIDATORS.put(LOCKSCREEN_BLUR_RADIUS, LOCKSCREEN_BLUR_RADIUS_VALIDATOR);
         }
     }
 
