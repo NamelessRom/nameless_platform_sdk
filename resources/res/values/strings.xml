@@ -25,4 +25,7 @@
     <!-- Labels for the WRITE_SECURE_SETTINGS permission -->
     <string name="permlab_writeSecureSettings">modify NamelessRom secure system settings</string>
     <string name="permdesc_writeSecureSettings">Allows an app to modify NamelessRom secure system settings. Not for use by normal apps.</string>
+
+    <!-- Color picker -->
+    <string name="pick_a_color">Pick a color!</string>
 </resources>

@@ -4,12 +4,16 @@ import android.app.Activity;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 
 import org.namelessrom.internal.BootDexoptDialog;
+import org.namelessrom.internal.widgets.colorpicker.DefaultColorPickerDialog;
+import org.namelessrom.internal.widgets.colorpicker.OnColorListener;
+import org.namelessrom.internal.widgets.colorpicker.OnColorSelectedWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,23 +31,49 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private final ArrayList<ApplicationInfo> applicationInfos = new ArrayList<>();
 
+    private int mCurrentColor = Color.RED;
+
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         final Button launchDexoptDialog = (Button) findViewById(R.id.launch_dexopt_dialog);
         launchDexoptDialog.setOnClickListener(this);
+
+        final Button launchColorPickerDialog = (Button) findViewById(R.id.launch_color_picker);
+        launchColorPickerDialog.setOnClickListener(this);
     }
 
     @Override public void onClick(View view) {
         final int id = view.getId();
         switch (id) {
+            case R.id.launch_color_picker: {
+                final Bundle args = new Bundle();
+                args.putInt(DefaultColorPickerDialog.ARG_COLOR, mCurrentColor);
+
+                final OnColorSelectedWrapper wrapper = new OnColorSelectedWrapper();
+                wrapper.onColorListener = mOnColorListener;
+                args.putSerializable(DefaultColorPickerDialog.ARG_LISTENER, wrapper);
+
+                final DefaultColorPickerDialog dialog = new DefaultColorPickerDialog();
+                dialog.setArguments(args);
+                dialog.show(getFragmentManager(), "");
+                break;
+            }
             case R.id.launch_dexopt_dialog: {
                 launchDexOptDialog();
                 break;
             }
         }
     }
+
+    private final OnColorListener mOnColorListener = new OnColorListener() {
+        @Override public void onColorChanged(int color) { }
+
+        @Override public void onColorSelected(int color) {
+            mCurrentColor = color;
+        }
+    };
 
     private void launchDexOptDialog() {
         final PackageManager packageManager = getPackageManager();

@@ -20,4 +20,16 @@
     <dimen name="dexopt_icon_size">40dp</dimen>
     <dimen name="dexopt_logo_size">200dp</dimen>
     <dimen name="dexopt_margin">10dp</dimen>
+
+    <!-- Color picker -->
+    <dimen name="color_wheel_radius">111dp</dimen>
+    <dimen name="color_wheel_thickness">6dp</dimen>
+    <dimen name="color_wheel_pointer_radius">19dp</dimen>
+    <dimen name="color_wheel_pointer_shadow_radius">23dp</dimen>
+    <dimen name="color_history_radius">46dp</dimen>
+
+    <dimen name="color_slider_length">210dp</dimen>
+    <dimen name="color_slider_thickness">5dp</dimen>
+    <dimen name="color_slider_pointer_radius">11dp</dimen>
+    <dimen name="color_slider_pointer_shadow_radius">14dp</dimen>
 </resources>

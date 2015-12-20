@@ -18,4 +18,6 @@
     <!-- Boot dexopt layout -->
     <color name="dexopt_background">#000</color>
     <color name="dexopt_text">#fff</color>
+    <!-- Color picker -->
+    <color name="lobsterpicker_pointer_shadow">#33000000</color>
 </resources>
