@@ -774,6 +774,17 @@ public final class NamelessSettings {
         public static final Validator LONG_PRESS_KILL_DELAY_VALIDATOR =
                 sNonNegativeIntegerValidator;
 
+        /**
+         * Allows to show the background activity back the lockscreen
+         * 0 = off
+         * 1 = on
+         * @hide
+         */
+        public static final String LOCKSCREEN_SEE_THROUGH = "lockscreen_see_through";
+
+        /** @hide */
+        public static final Validator LOCKSCREEN_SEE_THROUGH_VALIDATOR = sBooleanValidator;
+
         // endregion
 
         /**
@@ -799,11 +810,11 @@ public final class NamelessSettings {
          *
          * @hide
          */
-        public static final Map<String, Validator> VALIDATORS =
-                new ArrayMap<String, Validator>();
+        public static final Map<String, Validator> VALIDATORS = new ArrayMap<>();
         static {
             VALIDATORS.put(LONG_PRESS_KILL_DELAY, LONG_PRESS_KILL_DELAY_VALIDATOR);
-        };
+            VALIDATORS.put(LOCKSCREEN_SEE_THROUGH, LOCKSCREEN_SEE_THROUGH_VALIDATOR);
+        }
     }
 
     /**
