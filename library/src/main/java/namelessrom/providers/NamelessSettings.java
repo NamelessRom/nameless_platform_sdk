@@ -795,6 +795,39 @@ public final class NamelessSettings {
         public static final Validator LOCKSCREEN_BLUR_RADIUS_VALIDATOR =
                 new InclusiveIntegerRangeValidator(0, 25);
 
+        /**
+         * Network traffic indicator, goes from least to greatest significant bitwise
+         * 0 = Display up-stream traffic if set
+         * 1 = Display down-stream traffic if set
+         * 2 = Show as Byte/s if set
+         * 16-31 = Refresh interval(ms) min: 250 max: 32750 default: 1000
+         * @hide
+         */
+        public static final String NETWORK_TRAFFIC_STATE = "network_traffic_state";
+        public static final Validator NETWORK_TRAFFIC_STATE_VALIDATOR = sNonNegativeIntegerValidator;
+
+        /**
+         * Network stats Color style
+         * @hide
+         */
+        public static final String NETWORK_TRAFFIC_COLOR = "network_traffic_color";
+        public static final Validator NETWORK_TRAFFIC_COLOR_VALIDATOR = sColorValidator;
+
+        /**
+         * Whether or not to hide the network traffic indicator when there is no activity
+         * @hide
+         */
+        public static final String NETWORK_TRAFFIC_AUTOHIDE = "network_traffic_autohide";
+        public static final Validator NETWORK_TRAFFIC_AUTOHIDE_VALIDATOR = sBooleanValidator;
+
+        /**
+         * Network traffic inactivity threshold (default is 10 kBs)
+         * @hide
+         */
+        public static final String NETWORK_TRAFFIC_AUTOHIDE_THRESHOLD = "network_traffic_autohide_threshold";
+        public static final Validator NETWORK_TRAFFIC_AUTOHIDE_THRESHOLD_VALIDATOR =
+                new InclusiveIntegerRangeValidator(0, 100);
+
         // endregion
 
         /**
@@ -825,6 +858,10 @@ public final class NamelessSettings {
             VALIDATORS.put(LONG_PRESS_KILL_DELAY, LONG_PRESS_KILL_DELAY_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_SEE_THROUGH, LOCKSCREEN_SEE_THROUGH_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_BLUR_RADIUS, LOCKSCREEN_BLUR_RADIUS_VALIDATOR);
+            VALIDATORS.put(NETWORK_TRAFFIC_STATE, NETWORK_TRAFFIC_STATE_VALIDATOR);
+            VALIDATORS.put(NETWORK_TRAFFIC_COLOR, NETWORK_TRAFFIC_COLOR_VALIDATOR);
+            VALIDATORS.put(NETWORK_TRAFFIC_AUTOHIDE, NETWORK_TRAFFIC_AUTOHIDE_VALIDATOR);
+            VALIDATORS.put(NETWORK_TRAFFIC_AUTOHIDE_THRESHOLD, NETWORK_TRAFFIC_AUTOHIDE_THRESHOLD_VALIDATOR);
         }
     }
 
