@@ -56,11 +56,13 @@ public class BootDexoptDialog extends Dialog {
     private boolean mShouldShowIcon;
     private boolean mWasApk;
 
-    public static BootDexoptDialog create(Context context, final int total) {
-        return create(context, total, WindowManager.LayoutParams.TYPE_BOOT_PROGRESS);
+    private int mTotal;
+
+    public static BootDexoptDialog create(Context context) {
+        return create(context,  WindowManager.LayoutParams.TYPE_BOOT_PROGRESS);
     }
 
-    public static BootDexoptDialog create(Context context, final int total, int windowType) {
+    public static BootDexoptDialog create(Context context, int windowType) {
         final PackageManager pm = context.getPackageManager();
         final int theme;
         if (pm.hasSystemFeature(PackageManager.FEATURE_TELEVISION) || pm.hasSystemFeature(PackageManager.FEATURE_LEANBACK)) {
@@ -72,10 +74,10 @@ public class BootDexoptDialog extends Dialog {
             theme = com.android.internal.R.style.Theme_Material_Light;
         }
 
-        return new BootDexoptDialog(context, theme, total, windowType);
+        return new BootDexoptDialog(context, theme, windowType);
     }
 
-    public BootDexoptDialog(Context context, int themeResId, final int total, int windowType) {
+    private BootDexoptDialog(Context context, int themeResId, int windowType) {
         super(context, themeResId);
         mContext = context;
         mPackageManager = mContext.getPackageManager();
@@ -110,9 +112,6 @@ public class BootDexoptDialog extends Dialog {
         bootMsgLayout.post(new Runnable() {
             @Override public void run() {
                 mBootDexoptIcon.setImageDrawable(null);
-                mBootDexoptProgress.setMax(total);
-                mBootDexoptProgress.setProgress(0);
-                mBootDexoptProgress.setSecondaryProgress(0);
 
                 // start the marquee
                 mBootDexoptMsg.setSelected(true);
@@ -124,6 +123,12 @@ public class BootDexoptDialog extends Dialog {
     public void setProgress(final ApplicationInfo info, final int current, final int total) {
         boolean isApk = false;
         String msg = "";
+
+        // if we initialized with an invalid total, get it from the valid dexopt messages
+        if (mTotal != total && total > 0) {
+            mTotal = total;
+            mBootDexoptProgress.setMax(mTotal);
+        }
 
         if (info == null) {
             if (current == Integer.MIN_VALUE) {

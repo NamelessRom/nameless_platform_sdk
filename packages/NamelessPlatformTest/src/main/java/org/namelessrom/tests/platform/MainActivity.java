@@ -97,7 +97,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             applicationInfos.add(packageInfo.applicationInfo);
         }
 
-        mBootDexoptDialog = BootDexoptDialog.create(this, applicationInfos.size(), 0);
+        mBootDexoptDialog = BootDexoptDialog.create(this, 0);
         mBootDexoptDialog.setCancelable(true);
         mHandler.post(mUpdateDexoptDialogRunnable);
     }
