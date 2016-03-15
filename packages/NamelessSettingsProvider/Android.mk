@@ -24,7 +24,4 @@ LOCAL_PACKAGE_NAME := NamelessSettingsProvider
 LOCAL_CERTIFICATE := platform
 LOCAL_PRIVILEGED_MODULE := true
 
-LOCAL_STATIC_JAVA_LIBRARIES := \
-    org.namelessrom.platform.sdk
-
 include $(BUILD_PACKAGE)

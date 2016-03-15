@@ -1,8 +1,2 @@
-// library
-include ':library'
-
 // system packages
 include ':packages:NamelessSettingsProvider'
-
-// test packages
-include ':packages:NamelessPlatformTest'

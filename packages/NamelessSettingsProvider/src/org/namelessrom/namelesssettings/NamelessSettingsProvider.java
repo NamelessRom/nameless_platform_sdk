@@ -288,11 +288,11 @@ public class NamelessSettingsProvider extends ContentProvider {
         // Framework can't do automatic permission checking for calls, so we need
         // to do it here.
         if (getContext().checkCallingOrSelfPermission(
-                namelessrom.platform.Manifest.permission.WRITE_SETTINGS) !=
+                "android.permission.WRITE_NAMELESS_SETTINGS") !=
             PackageManager.PERMISSION_GRANTED) {
             throw new SecurityException(
                     String.format("Permission denial: writing to settings requires %1$s",
-                            namelessrom.platform.Manifest.permission.WRITE_SETTINGS));
+                            "android.permission.WRITE_NAMELESS_SETTINGS"));
         }
 
         // Put methods
@@ -662,11 +662,11 @@ public class NamelessSettingsProvider extends ContentProvider {
         if ((NamelessDatabaseHelper.NamelessTableNames.TABLE_SECURE.equals(tableName) ||
                 NamelessDatabaseHelper.NamelessTableNames.TABLE_GLOBAL.equals(tableName)) &&
                 getContext().checkCallingOrSelfPermission(
-                        namelessrom.platform.Manifest.permission.WRITE_SECURE_SETTINGS) !=
+                        "android.permission.WRITE_NAMELESS_SECURE_SETTINGS") !=
                         PackageManager.PERMISSION_GRANTED) {
             throw new SecurityException(
                     String.format("Permission denial: writing to Nameless secure settings requires %1$s",
-                            namelessrom.platform.Manifest.permission.WRITE_SECURE_SETTINGS));
+                            "android.permission.WRITE_NAMELESS_SECURE_SETTINGS"));
         }
     }
 
